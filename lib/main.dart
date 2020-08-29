@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+// screens
+import './screens/home_screen.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -9,12 +12,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //showPerformanceOverlay: true,
       title: 'Drinkable',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      home: HomeScreen(),
     );
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../values/water_amount_types.dart';
+import '../models/water_amount.dart';
 
 class WaterAmountSelector extends StatefulWidget {
   @override
@@ -26,13 +28,14 @@ class _WaterAmountSelectorState extends State<WaterAmountSelector> {
   Widget build(BuildContext context) {
     return Container(
       height: 130,
-      width: 90,
+      width: 110,
       //color: Colors.yellow,
       child: PageView.builder(
         controller: _pageController,
-        itemCount: 10,
+        itemCount: waterAmountTypes.length,
         scrollDirection: Axis.vertical,
         itemBuilder: (context, index) {
+          WaterAmount waterAmount = waterAmountTypes[index];
           return Transform.scale(
             scale: 1.0-(0.3*(index.toDouble()-_page).abs()),
             child: Align(
@@ -40,9 +43,9 @@ class _WaterAmountSelectorState extends State<WaterAmountSelector> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset('assets/icons/glass.png',height: 25,),
+                  Image.asset(waterAmount.iconPath,height: 25,),
                   SizedBox(width: 10,),
-                  Text('Item $index',style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.w500),),
+                  Text('${waterAmount.count}  ${waterAmount.type}',style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.w500),),
                 ],
               )
             ),

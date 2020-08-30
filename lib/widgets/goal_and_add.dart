@@ -1,4 +1,6 @@
+import 'package:drinkable/providers/home_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 // widgets
@@ -38,7 +40,7 @@ class GoalAndAdd extends StatelessWidget {
                         IconButton(
                           icon: Icon(Icons.add_circle,color: Colors.white,size: 35,),
                           onPressed: (){
-
+                            Provider.of<HomeProvider>(context,listen: false).addWater(300);
                           },
                         )
                       ],

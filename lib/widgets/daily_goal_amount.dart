@@ -1,4 +1,6 @@
+import 'package:drinkable/providers/home_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DailyGoalAmount extends StatelessWidget {
   @override
@@ -25,13 +27,17 @@ class DailyGoalAmount extends StatelessWidget {
               ),
             ),
             SizedBox(width: 15,),
-            Text(
-              '3.2 L',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 19,
-                fontWeight: FontWeight.w700
-              )
+            Consumer<HomeProvider>(
+              builder: (context, provider, child) {
+                return Text(
+                  provider.dailyTarget.toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                    fontWeight: FontWeight.w700
+                  )
+                );
+              },
             )
           ],
         ),

@@ -1,16 +1,16 @@
-class User {
+class AppUser {
   String uid;
   String name;
   int dailyTarget;
 
-  User({
+  AppUser({
     this.uid,
     this.name,
     this.dailyTarget
   });
 
-  factory User.fromDoc(Map<String,dynamic> doc){
-    return User(
+  factory AppUser.fromDoc(Map<String,dynamic> doc){
+    return AppUser(
       uid: doc['uid'],
       name: doc['name'],
       dailyTarget: doc['dailyTarget'] 

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 // utils
 import '../utils/get_week.dart';
 
@@ -13,8 +13,8 @@ import '../models/user.dart';
 
 class HomeProvider extends ChangeNotifier {
   WeeklyData _weeklyData;
-  String uid = 'akash';
-  User _user;
+  String _uid;
+  AppUser _user;
   DateTime _today = DateTime.now();
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   CollectionReference _weekColRef;
@@ -23,9 +23,23 @@ class HomeProvider extends ChangeNotifier {
   Location _location = Location();
   Map<String,dynamic> weather;
 
-  HomeProvider(){
-    _weekColRef = _firebaseFirestore.collection('users').doc(uid).collection('week');
-    _userRef = _firebaseFirestore.collection('users').doc(uid);
+  // HomeProvider(){
+  //   _weekColRef = _firebaseFirestore.collection('users').doc(_uid).collection('week');
+  //   _userRef = _firebaseFirestore.collection('users').doc(_uid);
+  // }
+
+  void updateUId(User user){
+    print('Updating user in home provider');
+    if(user!=null){
+      _uid = user.uid;
+      _weekColRef = _firebaseFirestore.collection('users').doc(_uid).collection('weeks');
+      _userRef = _firebaseFirestore.collection('users').doc(_uid);
+    }else{
+      _uid = null;
+      _weekColRef = null;
+      _userRef = null;
+    }
+    notifyListeners();
   }
 
   String get dailyTarget {
@@ -61,7 +75,7 @@ class HomeProvider extends ChangeNotifier {
       String docId = '${_today.year}_$week';
       _currentWeek = _weekColRef.doc(docId);
       DocumentSnapshot userSnapshot = await _userRef.get();
-      _user = User.fromDoc(userSnapshot.data());
+      _user = AppUser.fromDoc(userSnapshot.data());
       DocumentSnapshot snapshot = await _currentWeek.get();
       if(!snapshot.exists){
         // print('Creating new weekly data');
@@ -92,8 +106,8 @@ class HomeProvider extends ChangeNotifier {
     try{
       int weekday = DateTime.now().weekday;
       _firebaseFirestore.runTransaction((transaction)async{
-        DocumentReference yearDocRef = _firebaseFirestore.collection('users').doc('akash').collection('years').doc('${_today.year}');
-        DocumentReference monthDocRef = _firebaseFirestore.collection('users').doc('akash').collection('months').doc('${_today.year}_${_today.month}');
+        DocumentReference yearDocRef = _firebaseFirestore.collection('users').doc(_uid).collection('years').doc('${_today.year}');
+        DocumentReference monthDocRef = _firebaseFirestore.collection('users').doc(_uid).collection('months').doc('${_today.year}_${_today.month}');
         DocumentSnapshot yearDocSnap = await transaction.get(yearDocRef);
         DocumentSnapshot monthDocSnap = await transaction.get(monthDocRef);
 

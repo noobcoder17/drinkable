@@ -10,6 +10,10 @@ import '../widgets/weather_suggestion.dart';
 import '../providers/home_provider.dart';
 
 class HomeScreen extends StatefulWidget {
+  final Function openDrawer;
+  HomeScreen({
+    this.openDrawer
+  });
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -42,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen>  {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CustomAppBar(),
+              CustomAppBar(widget.openDrawer),
               SizedBox(height: 40,),
               GoalAndAdd(),
               SizedBox(height: 15,),

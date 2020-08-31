@@ -1,3 +1,6 @@
+import 'package:drinkable/screens/auth_screen.dart';
+import 'package:drinkable/screens/data_entry_screen.dart';
+import 'package:drinkable/screens/onboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +13,13 @@ import './screens/test.dart';
 
 // providers
 import './providers/home_provider.dart';
+import './providers/auth_provider.dart';
+
+
+
+import './widgets/custom_drawer.dart';
+
+import './root.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,8 +43,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<HomeProvider>(
+        ChangeNotifierProvider<AuthProvider>(
+          create: (context) => AuthProvider(),
+        ),
+        ChangeNotifierProxyProvider<AuthProvider,HomeProvider>(
           create: (context) => HomeProvider(),
+          update: (context, authProvider, homeProvider) => homeProvider..updateUId(authProvider.user),
         )
       ],
       child: MaterialApp(
@@ -44,8 +58,17 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: HomeScreen(),
+        //home: HomeScreen(),
+        //home: CustomDrawer(),
+        home: Root(),
         //home: TestScreen(),
+        //home: OnboardScreen(),
+        routes: {
+          // '/' : (ctx)=>OnboardScreen(),
+          DataEntryScreen.routeName : (ctx)=>DataEntryScreen(),
+          // AuthScreen.routeName : (ctx)=>AuthScreen(),
+          // CustomDrawer.routeName : (ctx)=>CustomDrawer()
+        },
       ),
     );
   }

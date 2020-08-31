@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
+  final Function openDrawer;
+  CustomAppBar(this.openDrawer);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -8,7 +10,7 @@ class CustomAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          MenuButton(),
+          MenuButton(openDrawer),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -28,13 +30,13 @@ class CustomAppBar extends StatelessWidget {
 }
 
 class MenuButton extends StatelessWidget {
+  final Function onTap;
+  MenuButton(this.onTap);
   @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(4),
-      onTap: (){
-
-      },
+      onTap: onTap,
       child: Container(
         width: 40,
         height: 40,

@@ -17,7 +17,7 @@ class _TestScreenState extends State<TestScreen> {
   void initState() {
     super.initState();
     //_location = Location();
-    init();
+    //init();
   }
 
   void toggleLoading(){
@@ -51,11 +51,11 @@ class _TestScreenState extends State<TestScreen> {
   //   print(_locationData.longitude);
   // }
 
-  void init() async {
-    toggleLoading();
-    await Provider.of<HomeProvider>(context,listen: false).init();
-    toggleLoading();
-  }
+  // void init() async {
+  //   toggleLoading();
+  //   await Provider.of<HomeProvider>(context,listen: false).init();
+  //   toggleLoading();
+  // }
 
   // void week(){
   //   DateTime stateDate = DateTime(2019,1,1);

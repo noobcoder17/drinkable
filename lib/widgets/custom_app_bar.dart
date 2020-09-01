@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomAppBar extends StatelessWidget {
   final Function openDrawer;
@@ -15,8 +16,16 @@ class CustomAppBar extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset('assets/icons/logo.png',height: 20,),
-              SizedBox(width: 15,),
-              Text('Drinkable',style: TextStyle(fontWeight: FontWeight.w600,fontSize: 17),)
+              SizedBox(width: 12,),
+              //Text('Drinkable',style: TextStyle(fontWeight: FontWeight.w600,fontSize: 17),)
+              Text(
+                'drinkable',
+                style: GoogleFonts.pacifico(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                  color: Color.fromARGB(255, 0, 60, 192),
+                ),
+              )
             ],
           ),
           CircleAvatar(

@@ -66,6 +66,11 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  void clearGoogleAccount()async{
+    await _googleSignIn.signOut();
+    notifyListeners();
+  }
+
   void signOut() async {
     await _googleSignIn.signOut();
     await _firebaseAuth.signOut();

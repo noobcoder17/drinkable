@@ -1,5 +1,6 @@
 import 'package:drinkable/providers/auth_provider.dart';
 import 'package:drinkable/screens/auth_screen.dart';
+import 'package:drinkable/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../screens/home_screen.dart';
@@ -59,7 +60,8 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     List<Widget> screens = [
       HomeScreen(openDrawer: open,),
-      StatisticsScreen(openDrawer: open,)
+      StatisticsScreen(openDrawer: open,),
+      ProfileScreen(openDrawer: open,)
     ];
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -125,12 +127,16 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
                       MenuItem(
                         icon: Icons.add_circle_outline,
                         title: 'Add Water',
-                        onTap: null,
+                        onTap: (){
+                          
+                        },
                       ),
                       MenuItem(
                         icon: Icons.account_circle,
                         title: 'Account',
-                        onTap: null,
+                        onTap: (){
+                          selectItem(2);
+                        },
                       ),
                       
                       MenuItem(

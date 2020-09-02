@@ -10,7 +10,6 @@ class WeeklyData {
   });
 
   factory WeeklyData.fromDoc(Map<String,dynamic> doc){
-    print(doc);
     Map<String,dynamic> rawAmounts = doc.containsKey('amounts') ? doc['amounts'] : {};
     for(int i=1;i<=7;i++){
       if(!rawAmounts.containsKey(i.toString())){

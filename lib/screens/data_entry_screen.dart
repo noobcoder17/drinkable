@@ -95,10 +95,48 @@ class _DataEntryFormState extends State<DataEntryForm> {
   DateTime _birthday = DateTime(1997,4,1);
   double _weight;
   TimeOfDay _wakeUpTime = TimeOfDay(hour: 8, minute: 0);
+  int _water = 3200;
+
 
   void submit()async{
     if(!_formKey.currentState.validate()){
       return;
+    }
+    // toggleLoading();
+    // try{
+    //   await Provider.of<AuthProvider>(context,listen: false).signUp(
+    //     _gender,
+    //     _birthday,
+    //     _weight,
+    //     _wakeUpTime,
+    //     _water
+    //   );
+    //   Navigator.of(context).pop();
+    //   return;
+    // }catch(e){
+    //   print(e);
+    // }
+    // toggleLoading();
+  }
+
+  void setWater({double weight}){
+    if(_weight!=null || weight!=null){
+      double calWater = weight!=null ? weight*2.205 : _weight*2.205;
+      calWater = calWater/2.2;
+      int age = DateTime.now().year-_birthday.year;
+      if(age<30){
+        calWater = calWater*40;
+      }else if(age>=30 && age<=55){
+        calWater = calWater*35;
+      }else{
+        calWater = calWater*30;
+      }
+      calWater = calWater/28.3;
+      calWater = calWater*29.574;
+      setState(() {
+        _water = calWater.toInt();
+        _weight = weight==null? _weight : weight;
+      });
     }
   }
 
@@ -146,7 +184,7 @@ class _DataEntryFormState extends State<DataEntryForm> {
               ),
               Expanded(
                 flex: 6,
-                child: SizedBox(height: 20,)
+                child: SizedBox(width: 20,)
               ),
               Expanded(
                 flex: 47,
@@ -158,7 +196,12 @@ class _DataEntryFormState extends State<DataEntryForm> {
                       firstDate: DateTime(1960),
                       lastDate: DateTime(DateTime.now().year-12,12,31),
                     );
-                    print(date);
+                    if(date!=null){
+                      setState(() {
+                        _birthday = date;
+                      });
+                      setWater();
+                    }
                   },
                   child: CustomFormField(
                     label: 'Birthday',
@@ -208,12 +251,15 @@ class _DataEntryFormState extends State<DataEntryForm> {
                       }
                       return null;
                     },
+                    onChanged: (String value){
+                      setWater(weight: double.parse(value));
+                    },
                   ),
                 )
               ),
               Expanded(
                 flex: 6,
-                child: SizedBox(height: 20,),
+                child: SizedBox(width: 20,),
               ),
               Expanded(
                 flex: 47,
@@ -253,6 +299,43 @@ class _DataEntryFormState extends State<DataEntryForm> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              Expanded(
+                flex: 2,
+                child: CustomFormField(
+                  label: 'Water',
+                  child: TextFormField(
+                    controller: TextEditingController(text: '$_water'),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: '3200 mL',
+                      suffixText: 'mL',
+                    ),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500
+                    ),
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.done,
+                    validator: (String value){
+                      if(value.isEmpty){
+                        return 'Enter water amount';
+                      }
+                      if(double.parse(value)<1600){
+                        return 'Less than min water';
+                      }
+                      return null;
+                    },
+                    onSaved: (String value){
+                      setState(() {
+                        _water = int.parse(value);
+                      });
+                    },
+                  ),
+                )
+              ),
+              Expanded(
+                child: SizedBox(width: 0,),
+              ),
               RaisedButton(
                 elevation: 1,
                 color: Color.fromARGB(255, 0, 60, 192),
@@ -331,7 +414,7 @@ class CustomFormField extends StatelessWidget {
 // RaisedButton(
 //           child: Text('Lest go'),
 //           onPressed: ()async{
-//             await Provider.of<AuthProvider>(context,listen: false).signUp();
-//             Navigator.of(context).pop();
+            // await Provider.of<AuthProvider>(context,listen: false).signUp();
+            // Navigator.of(context).pop();
 //           },
 //         ),

@@ -13,7 +13,6 @@ class WeatherSuggestion extends StatelessWidget {
         ),
         SizedBox(height: 20,),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
               padding: EdgeInsets.all(25),
@@ -23,6 +22,7 @@ class WeatherSuggestion extends StatelessWidget {
               ),
               child: Image.asset('assets/icons/025-sun.png',width: 40,),
             ),
+            SizedBox(width: 20,),
             Container(
               width: 140,
               child: Column(

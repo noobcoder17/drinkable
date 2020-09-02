@@ -11,76 +11,92 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
-  Location _location;
-  bool _isLoading = false;
-  @override
-  void initState() {
-    super.initState();
-    //_location = Location();
-    //init();
-  }
-
-  void toggleLoading(){
-    setState(() {
-      _isLoading = !_isLoading;
-    });
-  }
-  
-  // void getLocation()async{
-  //   bool isServiceEnabled = await _location.serviceEnabled();
-  //   if(!isServiceEnabled){
-  //     bool _enabled = await _location.requestService();
-  //     if (_enabled) {
-  //       print('Service is enables');
-  //     }else{
-  //       return;
-  //     }
-  //   }
-  //   print('Service is already enables');
-
-  //   PermissionStatus permissionGranted = await _location.hasPermission();
-  //   if (permissionGranted == PermissionStatus.denied) {
-  //     PermissionStatus _isGranted = await _location.requestPermission();
-  //     if (_isGranted != PermissionStatus.granted) {
-  //       return;
-  //     }
-  //   }
-
-  //   LocationData _locationData = await _location.getLocation();
-  //   print(_locationData.latitude);
-  //   print(_locationData.longitude);
-  // }
-
-  // void init() async {
-  //   toggleLoading();
-  //   await Provider.of<HomeProvider>(context,listen: false).init();
-  //   toggleLoading();
-  // }
-
-  // void week(){
-  //   DateTime stateDate = DateTime(2019,1,1);
-  //   int weekday = stateDate.weekday;
-  //   print('weekday $weekday');
-
-  //   DateTime today = DateTime(2019,2,4);
-  //   int day = today.difference(stateDate).inDays; 
-  //   print('Total days ${day+1}');
-  //   print('Week is ${((weekday+day)/7).ceil()}');
-  // }
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  Center(
-        child: _isLoading ? CircularProgressIndicator() : RaisedButton(
-          child: Text('Get week'),
-          onPressed: (){
-          },
-        ),
-      ),
-      
+      body: Center()
     );
   }
 }
+
+
+// class TestScreen extends StatefulWidget {
+//   @override
+//   _TestScreenState createState() => _TestScreenState();
+// }
+
+// class _TestScreenState extends State<TestScreen> {
+//   Location _location;
+//   bool _isLoading = false;
+//   @override
+//   void initState() {
+//     super.initState();
+//     //_location = Location();
+//     //init();
+//   }
+
+//   void toggleLoading(){
+//     setState(() {
+//       _isLoading = !_isLoading;
+//     });
+//   }
+  
+//   // void getLocation()async{
+//   //   bool isServiceEnabled = await _location.serviceEnabled();
+//   //   if(!isServiceEnabled){
+//   //     bool _enabled = await _location.requestService();
+//   //     if (_enabled) {
+//   //       print('Service is enables');
+//   //     }else{
+//   //       return;
+//   //     }
+//   //   }
+//   //   print('Service is already enables');
+
+//   //   PermissionStatus permissionGranted = await _location.hasPermission();
+//   //   if (permissionGranted == PermissionStatus.denied) {
+//   //     PermissionStatus _isGranted = await _location.requestPermission();
+//   //     if (_isGranted != PermissionStatus.granted) {
+//   //       return;
+//   //     }
+//   //   }
+
+//   //   LocationData _locationData = await _location.getLocation();
+//   //   print(_locationData.latitude);
+//   //   print(_locationData.longitude);
+//   // }
+
+//   // void init() async {
+//   //   toggleLoading();
+//   //   await Provider.of<HomeProvider>(context,listen: false).init();
+//   //   toggleLoading();
+//   // }
+
+//   // void week(){
+//   //   DateTime stateDate = DateTime(2019,1,1);
+//   //   int weekday = stateDate.weekday;
+//   //   print('weekday $weekday');
+
+//   //   DateTime today = DateTime(2019,2,4);
+//   //   int day = today.difference(stateDate).inDays; 
+//   //   print('Total days ${day+1}');
+//   //   print('Week is ${((weekday+day)/7).ceil()}');
+//   // }
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body:  Center(
+//         child: _isLoading ? CircularProgressIndicator() : RaisedButton(
+//           child: Text('Get week'),
+//           onPressed: (){
+//           },
+//         ),
+//       ),
+      
+//     );
+//   }
+// }
 
 
 // class TestScreen extends StatefulWidget {

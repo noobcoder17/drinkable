@@ -1,12 +1,15 @@
+import 'package:drinkable/models/app_user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthProvider extends ChangeNotifier {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   GoogleSignIn _googleSignIn = GoogleSignIn();
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  AppUser _appUser;
 
   GoogleSignInAccount get googleAcount {
     return _googleSignIn.currentUser;
@@ -15,6 +18,7 @@ class AuthProvider extends ChangeNotifier {
   User get user {
     return _firebaseAuth.currentUser;
   }
+
 
   Future<bool> selectGoogleAcount() async {
     try {
@@ -48,18 +52,22 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> signUp() async {
+  Future<void> signUp(String gender,DateTime birthday,double weight,TimeOfDay time,int water) async {
     try{
       await signIn();
       User user = _firebaseAuth.currentUser;
       DocumentReference userRef = _firestore.collection('users').doc(user.uid);
-      userRef.set({
-        'uid' : user.uid,
-        'google_id' : _googleSignIn.currentUser.id,
-        'email' : user.email,
-        'name' : user.displayName,
-        'dailyTarget' : 2700
-      });
+      await userRef.set(AppUser(
+        uid: user.uid,
+        googleId: _googleSignIn.currentUser.id,
+        email: user.email,
+        name: user.displayName,
+        gender: gender,
+        birthday: birthday,
+        weight: weight,
+        wakeUpTime: time,
+        dailyTarget: water
+      ).toDoc());
       notifyListeners();
     }catch(e){
       print(e);

@@ -1,10 +1,12 @@
+import 'package:drinkable/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 // widgets
 import '../widgets/custom_app_bar.dart';
 import '../widgets/goal_and_add.dart';
 import '../widgets/weather_suggestion.dart';
+import '../widgets/loading_screen.dart';
 
 // providers
 import '../providers/home_provider.dart';
@@ -40,13 +42,25 @@ class _HomeScreenState extends State<HomeScreen>  {
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _isLoading ? Center(child: CircularProgressIndicator(),) : Container(
+    return _isLoading ? LoadingScreen() : Scaffold(
+      body: Container(
         padding: EdgeInsets.only(top: 30),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CustomAppBar(widget.openDrawer),
+              CustomAppBar(
+                openDrawer: widget.openDrawer,
+                trailing: Consumer<AuthProvider>(
+                  builder: (context, authProvider, child) {
+                    User user = authProvider.user;
+                    return CircleAvatar(
+                      radius: 19,
+                      backgroundImage: NetworkImage(user.photoURL),
+                    );
+                  },
+                  
+                ),
+              ),
               SizedBox(height: 40,),
               GoalAndAdd(),
               SizedBox(height: 15,),
@@ -57,6 +71,14 @@ class _HomeScreenState extends State<HomeScreen>  {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        elevation: 3,
+        backgroundColor: Color.fromARGB(255, 0, 60, 192),
+        child: Icon(Icons.add,size: 30,),
+        onPressed: (){
+
+        }
       ),
     );
   }

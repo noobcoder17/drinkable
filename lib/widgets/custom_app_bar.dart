@@ -3,9 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CustomAppBar extends StatelessWidget {
   final Function openDrawer;
-  CustomAppBar(this.openDrawer);
+  final Widget trailing;
+  CustomAppBar({this.openDrawer,this.trailing});
   @override
   Widget build(BuildContext context) {
+    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Row(
@@ -28,10 +30,7 @@ class CustomAppBar extends StatelessWidget {
               )
             ],
           ),
-          CircleAvatar(
-            radius: 19,
-            backgroundImage: AssetImage('assets/images/profile.jpg'),
-          )
+          trailing==null ? CircleAvatar(radius: 19,backgroundColor: Colors.transparent,) : trailing
         ],
       ),
     );

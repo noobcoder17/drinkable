@@ -9,12 +9,13 @@ import '../utils/get_week.dart';
 
 // models
 import '../models/weekly_data.dart';
-import '../models/user.dart';
+import '../models/app_user.dart';
 
 class HomeProvider extends ChangeNotifier {
+  bool _isInited = false;
   WeeklyData _weeklyData;
   String _uid;
-  AppUser _user;
+  AppUser _appUser;
   DateTime _today = DateTime.now();
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   CollectionReference _weekColRef;
@@ -28,7 +29,7 @@ class HomeProvider extends ChangeNotifier {
   //   _userRef = _firebaseFirestore.collection('users').doc(_uid);
   // }
 
-  void updateUId(User user){
+  void update(User user){
     print('Updating user in home provider');
     if(user!=null){
       _uid = user.uid;
@@ -36,6 +37,7 @@ class HomeProvider extends ChangeNotifier {
       _userRef = _firebaseFirestore.collection('users').doc(_uid);
     }else{
       _uid = null;
+      _appUser = null;
       _weekColRef = null;
       _userRef = null;
     }
@@ -43,7 +45,7 @@ class HomeProvider extends ChangeNotifier {
   }
 
   String get dailyTarget {
-    int target = _user.dailyTarget;
+    int target = _appUser.dailyTarget;
     if(target<1000){
       return '$target mL';
     }else{
@@ -53,7 +55,7 @@ class HomeProvider extends ChangeNotifier {
   }
 
   String get leftAmount {
-    int target = _user.dailyTarget;
+    int target = _appUser.dailyTarget;
     int consumed = _weeklyData.amounts[_today.weekday.toString()].toInt();
     int left = target-consumed;
     if(left<1000){
@@ -64,41 +66,44 @@ class HomeProvider extends ChangeNotifier {
   }
 
   double get targetReached {
-    int target = _user.dailyTarget;
+    int target = _appUser.dailyTarget;
     int consumed = _weeklyData.amounts[_today.weekday.toString()].toInt();
     return consumed/target;
   }
 
   Future<void> init()async{
-    try {
-      int week = getWeek(_today);
-      String docId = '${_today.year}_$week';
-      _currentWeek = _weekColRef.doc(docId);
-      DocumentSnapshot userSnapshot = await _userRef.get();
-      _user = AppUser.fromDoc(userSnapshot.data());
-      DocumentSnapshot snapshot = await _currentWeek.get();
-      if(!snapshot.exists){
-        // print('Creating new weekly data');
-        Map<String,dynamic> newWeek = WeeklyData().createNewWeek(docId,_today.year,_today.month,week);
-        await _currentWeek.set(newWeek);
-        _weeklyData = WeeklyData.fromDoc(newWeek);
-      }else{
-        // print('Weekly data alredy exists');
-        _weeklyData = WeeklyData.fromDoc(snapshot.data());
+    if(_isInited==false){
+      try {
+        int week = getWeek(_today);
+        String docId = '${_today.year}_$week';
+        _currentWeek = _weekColRef.doc(docId);
+        DocumentSnapshot userSnapshot = await _userRef.get();
+        _appUser = AppUser.fromDoc(userSnapshot.data());
+        DocumentSnapshot snapshot = await _currentWeek.get();
+        if(!snapshot.exists){
+          Map<String,dynamic> newWeek = WeeklyData().createNewWeek(docId,_today.year,_today.month,week);
+          await _currentWeek.set(newWeek);
+          _weeklyData = WeeklyData.fromDoc(newWeek);
+        }else{
+          _weeklyData = WeeklyData.fromDoc(snapshot.data());
+        }
+        _isInited = true;
+        notifyListeners();
+        // LocationData _locationData = await _location.getLocation();
+        // print(_locationData.latitude);
+        // print(_locationData.longitude);
+        // http.Response response = await http.get(
+        //   'https://api.openweathermap.org/data/2.5/weather?lat=${_locationData.latitude}&lon=${_locationData.longitude}&appid=5c079888a15f3da50f160e44ce22723e&units=metric'
+        // );
+        // if(response.statusCode==200){
+        //   final weatherInfo = jsonDecode(response.body);
+        //   print(weatherInfo['main']);
+        // }
+      }catch(e){
+        print(e);
       }
-      notifyListeners();
-      // LocationData _locationData = await _location.getLocation();
-      // print(_locationData.latitude);
-      // print(_locationData.longitude);
-      // http.Response response = await http.get(
-      //   'https://api.openweathermap.org/data/2.5/weather?lat=${_locationData.latitude}&lon=${_locationData.longitude}&appid=5c079888a15f3da50f160e44ce22723e&units=metric'
-      // );
-      // if(response.statusCode==200){
-      //   final weatherInfo = jsonDecode(response.body);
-      //   print(weatherInfo['main']);
-      // }
-    }catch(e){
-      print(e);
+    }else{
+      print('Data already inited');
     }
   }
 

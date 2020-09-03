@@ -27,7 +27,16 @@ class AppUser {
   factory AppUser.fromDoc(Map<String,dynamic> doc){
     return AppUser(
       uid: doc['uid'],
+      googleId: doc['google_id'],
+      email: doc['email'],
       name: doc['name'],
+      gender: doc['gender'],
+      birthday: (doc['birthday'] as Timestamp).toDate(),
+      weight: doc['weight'],
+      wakeUpTime: TimeOfDay(
+        hour: doc['wake_up_time']['hour'],
+        minute: doc['wake_up_time']['minute']
+      ),
       dailyTarget: doc['daily_target']
     );
   }

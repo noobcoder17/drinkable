@@ -1,3 +1,4 @@
+import 'package:drinkable/screens/add_water_screen.dart';
 import 'package:drinkable/screens/data_entry_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,10 +23,10 @@ void main() async {
       DeviceOrientation.portraitUp
     ]
   );
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,    
-  ));
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //   statusBarColor: Colors.transparent,
+  //   statusBarIconBrightness: Brightness.dark,    
+  // ));
   runApp(MyApp());
 }
 
@@ -49,6 +50,11 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          pageTransitionsTheme: PageTransitionsTheme(
+            builders: {
+              TargetPlatform.android : CupertinoPageTransitionsBuilder()
+            }
+          )
         ),
         //home: HomeScreen(),
         //home: CustomDrawer(),
@@ -59,7 +65,8 @@ class MyApp extends StatelessWidget {
           // '/' : (ctx)=>OnboardScreen(),
           DataEntryScreen.routeName : (ctx)=>DataEntryScreen(),
           // AuthScreen.routeName : (ctx)=>AuthScreen(),
-          // CustomDrawer.routeName : (ctx)=>CustomDrawer()
+          // CustomDrawer.routeName : (ctx)=>CustomDrawer(),
+          AddWaterScreen.routeName : (ctx)=>AddWaterScreen()
         },
       ),
     );

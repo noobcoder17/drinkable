@@ -15,8 +15,8 @@ class DailyAmountDial extends StatelessWidget {
             Transform.rotate(
               angle: -pi/2,
               child: Container(
-                width: 145,
-                height: 145,
+                width: 180,
+                height: 180,
                 child: CustomPaint(
                   painter: DialPainter(provider.targetReached),
                 ),
@@ -52,8 +52,8 @@ class DialPainter extends CustomPainter{
   void paint(Canvas canvas, Size size) {
     Offset center = Offset(size.height/2,size.width/2);
     double fullRadius = (size.height/2);
-    Paint circle = Paint()..color=Colors.white.withOpacity(0.2)..strokeWidth=4..style=PaintingStyle.stroke;
-    Paint arc = Paint()..color = Colors.white..strokeCap=StrokeCap.round..style=PaintingStyle.stroke..strokeWidth=6;
+    Paint circle = Paint()..color=Colors.white.withOpacity(0.2)..strokeWidth=6..style=PaintingStyle.stroke;
+    Paint arc = Paint()..color = Colors.white..strokeCap=StrokeCap.round..style=PaintingStyle.stroke..strokeWidth=10;
     canvas.drawCircle(Offset(size.width/2,size.height/2), fullRadius-2,circle);
     canvas..drawArc(Rect.fromCircle(center: center,radius: fullRadius-2), 0, 2*pi*percent, false, arc);
   }

@@ -22,12 +22,8 @@ class HomeProvider extends ChangeNotifier {
   DocumentReference _userRef;
   DocumentReference _currentWeek;
   Location _location = Location();
-  Map<String,dynamic> weather;
-
-  // HomeProvider(){
-  //   _weekColRef = _firebaseFirestore.collection('users').doc(_uid).collection('week');
-  //   _userRef = _firebaseFirestore.collection('users').doc(_uid);
-  // }
+  Map<String,dynamic> _weather;
+  LocationData _locationData;
 
   void update(User user){
     print('Updating user in home provider');
@@ -36,12 +32,17 @@ class HomeProvider extends ChangeNotifier {
       _weekColRef = _firebaseFirestore.collection('users').doc(_uid).collection('weeks');
       _userRef = _firebaseFirestore.collection('users').doc(_uid);
     }else{
+      _isInited = false;
       _uid = null;
       _appUser = null;
       _weekColRef = null;
       _userRef = null;
     }
     notifyListeners();
+  }
+
+  Map<String,dynamic> get weather {
+    return _weather;
   }
 
   String get dailyTarget {
@@ -71,6 +72,8 @@ class HomeProvider extends ChangeNotifier {
     return consumed/target;
   }
 
+  AppUser get appUser => _appUser;
+
   Future<void> init()async{
     if(_isInited==false){
       try {
@@ -88,17 +91,21 @@ class HomeProvider extends ChangeNotifier {
           _weeklyData = WeeklyData.fromDoc(snapshot.data());
         }
         _isInited = true;
+        bool canGetLocation = await getLocationService();
+        print(canGetLocation);
+        if(canGetLocation){
+          _locationData = await _location.getLocation();
+          print(_locationData.latitude);
+          print(_locationData.longitude);
+          http.Response response = await http.get(
+            'https://api.openweathermap.org/data/2.5/weather?lat=${_locationData.latitude}&lon=${_locationData.longitude}&appid=5c079888a15f3da50f160e44ce22723e&units=metric'
+          );
+          if(response.statusCode==200){
+            final weatherInfo = jsonDecode(response.body);
+            _weather = weatherInfo['weather'][0];
+          }
+        }
         notifyListeners();
-        // LocationData _locationData = await _location.getLocation();
-        // print(_locationData.latitude);
-        // print(_locationData.longitude);
-        // http.Response response = await http.get(
-        //   'https://api.openweathermap.org/data/2.5/weather?lat=${_locationData.latitude}&lon=${_locationData.longitude}&appid=5c079888a15f3da50f160e44ce22723e&units=metric'
-        // );
-        // if(response.statusCode==200){
-        //   final weatherInfo = jsonDecode(response.body);
-        //   print(weatherInfo['main']);
-        // }
       }catch(e){
         print(e);
       }
@@ -107,49 +114,64 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> addWater(int amount) async {
+  Future<void> addWater(int amount,DateTime time) async {
     try{
-      int weekday = DateTime.now().weekday;
+      int weekday = time.weekday;
+      int week = getWeek(time);
+      String weekId = '${time.year}_$week';
       _firebaseFirestore.runTransaction((transaction)async{
-        DocumentReference yearDocRef = _firebaseFirestore.collection('users').doc(_uid).collection('years').doc('${_today.year}');
-        DocumentReference monthDocRef = _firebaseFirestore.collection('users').doc(_uid).collection('months').doc('${_today.year}_${_today.month}');
+        DocumentReference weekDocRef = _firebaseFirestore.collection('users').doc(_uid).collection('weeks').doc(weekId);
+        DocumentReference yearDocRef = _firebaseFirestore.collection('users').doc(_uid).collection('years').doc('${time.year}');
+        DocumentReference monthDocRef = _firebaseFirestore.collection('users').doc(_uid).collection('months').doc('${time.year}_${time.month}');
         DocumentSnapshot yearDocSnap = await transaction.get(yearDocRef);
         DocumentSnapshot monthDocSnap = await transaction.get(monthDocRef);
+        DocumentSnapshot weekDocSnap = await transaction.get(weekDocRef);
 
         if(!yearDocSnap.exists){
           transaction.set(yearDocRef, {
-            'year' : _today.year
+            'year' : time.year
           },SetOptions(merge: true));
         }
 
         if(!monthDocSnap.exists){
           transaction.set(monthDocRef, {
-            'year' : _today.year,
-            'month' : _today.month
+            'year' : time.year,
+            'month' : time.month
+          },SetOptions(merge: true));
+        }
+
+        if(!weekDocSnap.exists){
+          transaction.set(weekDocRef, {
+            'year' : time.year,
+            'month' : time.month,
+            'week' : week,
+            'id' : weekId
           },SetOptions(merge: true));
         }
 
         transaction.update(yearDocRef, {
-          'amounts.${_today.month}' : FieldValue.increment(amount)
+          'amounts.${time.month}' : FieldValue.increment(amount)
         });
 
         transaction.update(monthDocRef, {
-          'amounts.${_today.day}' : FieldValue.increment(amount)
+          'amounts.${time.day}' : FieldValue.increment(amount)
         });
-        transaction.update(_currentWeek, {
+        transaction.update(weekDocRef, {
           'amounts.$weekday' : FieldValue.increment(amount)
         });
 
       });
-      _weeklyData.amounts[weekday.toString()] += amount;
-      notifyListeners();
+      if(_weeklyData.id==weekId){
+        _weeklyData.amounts[weekday.toString()] += amount;
+        notifyListeners();
+      }
     }catch(e){
       print(e);
     }
     
   }
 
-  Future<void> getLocation()async{
+  Future<bool> getLocationService()async{
     bool isServiceEnabled = await _location.serviceEnabled();
     print(isServiceEnabled);
 
@@ -158,19 +180,29 @@ class HomeProvider extends ChangeNotifier {
       if (_enabled) {
         print('Service is enabled now');
       }else{
-        return;
+        return false;
       }
     }
-    print('Service is already enables');
 
     PermissionStatus permissionGranted = await _location.hasPermission();
     if (permissionGranted == PermissionStatus.denied) {
       PermissionStatus _isGranted = await _location.requestPermission();
       if (_isGranted != PermissionStatus.granted) {
-        return;
+        return false;
       }
     }
-    print('Ok');
+    return true;
   }
+
+  Future<void> updateUser(AppUser appUser)async{
+    try{
+      print(appUser.toDoc());
+      await _userRef.update(appUser.toDoc());
+      _appUser = appUser;
+      notifyListeners();
+    }catch(e){
+      print(e);
+    }
+  } 
 }
 

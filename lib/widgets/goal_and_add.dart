@@ -23,7 +23,7 @@ class GoalAndAdd extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal:20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
                       mainAxisSize: MainAxisSize.min,
@@ -34,17 +34,17 @@ class GoalAndAdd extends StatelessWidget {
                         DailyAmountDial()
                       ],
                     ),
-                    Row(
-                      children: [
-                        WaterAmountSelector(),
-                        IconButton(
-                          icon: Icon(Icons.add_circle,color: Colors.white,size: 35,),
-                          onPressed: (){
-                            Provider.of<HomeProvider>(context,listen: false).addWater(300);
-                          },
-                        )
-                      ],
-                    )
+                    // Row(
+                    //   children: [
+                    //     WaterAmountSelector(),
+                    //     IconButton(
+                    //       icon: Icon(Icons.add_circle,color: Colors.white,size: 35,),
+                    //       onPressed: (){
+                    //         //Provider.of<HomeProvider>(context,listen: false).addWater(300);
+                    //       },
+                    //     )
+                    //   ],
+                    // )
                   ],
                 ),
               )

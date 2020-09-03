@@ -1,10 +1,13 @@
 import 'package:drinkable/providers/auth_provider.dart';
+import 'package:drinkable/providers/auth_provider.dart';
 import 'package:drinkable/screens/auth_screen.dart';
 import 'package:drinkable/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../screens/home_screen.dart';
 import '../screens/scatistics_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class CustomDrawer extends StatefulWidget {
   static const routeName = 'drawer';
@@ -24,17 +27,34 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
       duration: Duration(milliseconds: 400),
     );
     //_animationController.repeat(reverse: true);
+    changeStatusBar(false);
+  }
+
+  void changeStatusBar(bool isOpened){
+    if(isOpened){
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light    
+      ));
+    }else{
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,    
+      ));
+    }
   }
 
   void open(){
+    changeStatusBar(true);
     _animationController.forward();
     setState(() {
       _isDrawerOpened = true;
     });
   }
 
-  void close(){
-    _animationController.reverse();
+  void close()async{
+    await _animationController.reverse();
+    changeStatusBar(false);
     setState(() {
       _isDrawerOpened = false;
     });
@@ -49,13 +69,7 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
     close();
   }
 
-  // void tap(){
-  //   if(_animationController.isCompleted){
-  //     _animationController.reverse();
-  //   }else{
-  //     _animationController.forward();
-  //   }
-  // }
+  
   @override
   Widget build(BuildContext context) {
     List<Widget> screens = [
@@ -81,23 +95,28 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CircleAvatar(
-                            radius: 20,
-                            backgroundImage: AssetImage('assets/images/profile.jpg'),
-                          ),
-                          SizedBox(width: 10,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                      Consumer<AuthProvider>(
+                        builder: (context, value, child) {
+                          User user = value.user;
+                          return Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text('Good Morning',style: TextStyle(color: Colors.white54,fontSize: 14),),
-                              SizedBox(height: 1,),
-                              Text('Akash',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w500))
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundImage: NetworkImage(user.photoURL),
+                              ),
+                              SizedBox(width: 10,),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Good Morning',style: TextStyle(color: Colors.white54,fontSize: 14),),
+                                  SizedBox(height: 1,),
+                                  Text(user.displayName.split(' ')[0],style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w500))
+                                ],
+                              )
                             ],
-                          )
-                        ],
+                          );
+                        },
                       ),
                       IconButton(
                         icon: Icon(Icons.close,color: Colors.white60,size: 20,),
@@ -125,15 +144,8 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
                         },
                       ),
                       MenuItem(
-                        icon: Icons.add_circle_outline,
-                        title: 'Add Water',
-                        onTap: (){
-                          
-                        },
-                      ),
-                      MenuItem(
                         icon: Icons.account_circle,
-                        title: 'Account',
+                        title: 'Profile',
                         onTap: (){
                           selectItem(2);
                         },
@@ -145,6 +157,14 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
                         onTap: (){
                           Provider.of<AuthProvider>(context,listen: false).signOut();
                           // Navigator.of(context).popAndPushNamed(AuthScreen.routeName);
+                        },
+                      ),
+
+                      MenuItem(
+                        icon: Icons.info,
+                        title: 'About',
+                        onTap: (){
+                          
                         },
                       ),
                     ],

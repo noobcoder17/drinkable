@@ -84,7 +84,7 @@ class HomeProvider extends ChangeNotifier {
         _appUser = AppUser.fromDoc(userSnapshot.data());
         DocumentSnapshot snapshot = await _currentWeek.get();
         if(!snapshot.exists){
-          Map<String,dynamic> newWeek = WeeklyData().createNewWeek(docId,_today.year,_today.month,week);
+          Map<String,dynamic> newWeek = WeeklyData().createNewWeek(docId,_today.year,_today.month,week,_appUser.dailyTarget);
           await _currentWeek.set(newWeek);
           _weeklyData = WeeklyData.fromDoc(newWeek);
         }else{
@@ -196,8 +196,12 @@ class HomeProvider extends ChangeNotifier {
 
   Future<void> updateUser(AppUser appUser)async{
     try{
-      print(appUser.toDoc());
-      await _userRef.update(appUser.toDoc());
+     await _firebaseFirestore.runTransaction((transaction)async{
+        transaction.update(_currentWeek,{
+          'daily_target' : appUser.dailyTarget
+        });
+        transaction.update(_userRef, appUser.toDoc());
+      });
       _appUser = appUser;
       notifyListeners();
     }catch(e){

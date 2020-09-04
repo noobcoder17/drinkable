@@ -1,10 +1,18 @@
-import 'package:drinkable/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+// providers
+import '../providers/auth_provider.dart';
+
+// utils
 import '../utils/time_converter.dart';
+
+// widgets
 import '../widgets/custom_form_field.dart';
+
 
 class DataEntryScreen extends StatelessWidget {
   static const routeName = 'data-entry-screen';
@@ -32,7 +40,7 @@ class DataEntryScreen extends StatelessWidget {
                 children: [
                   Icon(Icons.date_range),
                   SizedBox(height: 10,),
-                  Text('About you',style: TextStyle(fontSize: 23),),
+                  Text('About you',style:  GoogleFonts.poppins(fontSize: 22,fontWeight: FontWeight.w500),),
                   SizedBox(height: 20,),
                   Container(
                     constraints: BoxConstraints(
@@ -41,10 +49,11 @@ class DataEntryScreen extends StatelessWidget {
                     child: Text(
                       'This information will let us help to calculate your daily recommended water intake amount and remind you to drink water in intervals.',
                       textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 15,
+                        style:  GoogleFonts.poppins(
+                          fontSize: 14,
                           color: Colors.black.withOpacity(0.60),
-                          height: 1.4
+                          height: 1.4,
+                          fontWeight: FontWeight.w400
                         ),
                     ),
                   ),
@@ -59,7 +68,12 @@ class DataEntryScreen extends StatelessWidget {
                               backgroundImage: NetworkImage(googleAccount.photoUrl),
                             ),
                             SizedBox(height: 15,),
-                            Text('${googleAccount.email}'),
+                            Text(
+                              '${googleAccount.email}',
+                              style: GoogleFonts.poppins(
+                                fontSize: 13
+                              ),
+                            ),
                         ],
                       );
                     },
@@ -159,14 +173,14 @@ class _DataEntryFormState extends State<DataEntryForm> {
                     value: _gender,
                     items: <DropdownMenuItem<String>>[
                       DropdownMenuItem(
-                        child: Text('Male',style: TextStyle(
+                        child: Text('Male',style:  GoogleFonts.poppins(
                             fontSize: 15,
                             fontWeight: FontWeight.w500
                           ),),
                         value: 'male',
                       ),
                       DropdownMenuItem(
-                        child: Text('Female',style: TextStyle(
+                        child: Text('Female',style:  GoogleFonts.poppins(
                             fontSize: 15,
                             fontWeight: FontWeight.w500
                           ),),
@@ -212,7 +226,7 @@ class _DataEntryFormState extends State<DataEntryForm> {
                       children: [
                         Text(
                           DateFormat.yMMMd('en_US').format(_birthday),
-                          style: TextStyle(
+                          style:  GoogleFonts.poppins(
                             fontSize: 15,
                             fontWeight: FontWeight.w500
                           ),
@@ -238,7 +252,7 @@ class _DataEntryFormState extends State<DataEntryForm> {
                       hintText: '60 kg',
                       suffixText: 'kg',
                     ),
-                    style: TextStyle(
+                    style:  GoogleFonts.poppins(
                       fontSize: 15,
                       fontWeight: FontWeight.w500
                     ),
@@ -284,7 +298,7 @@ class _DataEntryFormState extends State<DataEntryForm> {
                       children: [
                         Text(
                           timeConverter(_wakeUpTime),
-                          style: TextStyle(
+                          style:  GoogleFonts.poppins(
                             fontSize: 15,
                             fontWeight: FontWeight.w500
                           ),
@@ -312,7 +326,7 @@ class _DataEntryFormState extends State<DataEntryForm> {
                       hintText: '3200 mL',
                       suffixText: 'mL',
                     ),
-                    style: TextStyle(
+                    style:  GoogleFonts.poppins(
                       fontSize: 15,
                       fontWeight: FontWeight.w500
                     ),
@@ -349,10 +363,10 @@ class _DataEntryFormState extends State<DataEntryForm> {
                   )
                 ) : Text(
                   'Let\'t go',
-                  style: TextStyle(
+                  style:  GoogleFonts.poppins(
                     color: Colors.white,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13
                   ),
                 ),
 
@@ -369,13 +383,3 @@ class _DataEntryFormState extends State<DataEntryForm> {
     );
   }
 }
-
-
-
-// RaisedButton(
-//           child: Text('Lest go'),
-//           onPressed: ()async{
-            // await Provider.of<AuthProvider>(context,listen: false).signUp();
-            // Navigator.of(context).pop();
-//           },
-//         ),

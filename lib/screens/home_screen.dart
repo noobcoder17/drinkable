@@ -1,9 +1,9 @@
-import 'package:drinkable/models/app_user.dart';
-import 'package:drinkable/providers/auth_provider.dart';
-import 'package:drinkable/screens/add_water_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+
 // widgets
 import '../widgets/custom_app_bar.dart';
 import '../widgets/goal_and_add.dart';
@@ -12,10 +12,13 @@ import '../widgets/loading_screen.dart';
 
 // providers
 import '../providers/home_provider.dart';
+import '../providers/auth_provider.dart';
 
+// models
+import '../models/app_user.dart';
 
+// widgets
 import '../widgets/custom_form_field.dart';
-import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   final Function openDrawer;
@@ -142,7 +145,11 @@ class _AddWaterWidgetState extends State<AddWaterWidget> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           SizedBox(height: 15,),
-          Text('Add Water'),
+          Text('Add Water',
+            style: GoogleFonts.poppins(
+              fontSize: 14
+            ),
+          ),
           SizedBox(height: 20,),
           Form(
             key: _formKey,
@@ -170,7 +177,7 @@ class _AddWaterWidgetState extends State<AddWaterWidget> {
                       children: [
                         Text(
                           DateFormat.yMMMd('en_US').format(_time),
-                          style: TextStyle(
+                          style:  GoogleFonts.poppins(
                             fontSize: 15,
                             fontWeight: FontWeight.w500
                           ),
@@ -189,7 +196,7 @@ class _AddWaterWidgetState extends State<AddWaterWidget> {
                       hintText: '240 mL',
                       suffixText: 'mL',
                     ),
-                    style: TextStyle(
+                    style:  GoogleFonts.poppins(
                       fontSize: 15,
                       fontWeight: FontWeight.w500
                     ),
@@ -224,14 +231,24 @@ class _AddWaterWidgetState extends State<AddWaterWidget> {
       actions: <Widget>[
         FlatButton(
           textColor: Color.fromARGB(255, 0, 60, 192),
-          child: Text('Cancel'),
+          child: Text('Cancel',
+            style: GoogleFonts.poppins(
+              fontSize: 13,
+              fontWeight: FontWeight.w500
+            )
+          ),
           onPressed: (){
             Navigator.of(context).pop();
           },
         ),
         FlatButton(
           color: Color.fromARGB(255, 0, 60, 192),
-          child: Text('Create'),
+          child: Text('Create',
+            style: GoogleFonts.poppins(
+              fontSize: 13,
+              fontWeight: FontWeight.w500
+            )
+          ),
           onPressed: submit,
         ),
       ],

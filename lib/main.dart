@@ -1,18 +1,17 @@
-import 'package:drinkable/screens/add_water_screen.dart';
-import 'package:drinkable/screens/data_entry_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-// screens
-import './screens/test.dart';
 
 // providers
 import './providers/home_provider.dart';
 import './providers/auth_provider.dart';
+import './providers/statistics_provider.dart';
 
+// screens
 import './root.dart';
+import './screens/data_entry_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,15 +22,10 @@ void main() async {
       DeviceOrientation.portraitUp
     ]
   );
-  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  //   statusBarColor: Colors.transparent,
-  //   statusBarIconBrightness: Brightness.dark,    
-  // ));
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -42,6 +36,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<AuthProvider,HomeProvider>(
           create: (context) => HomeProvider(),
           update: (context, authProvider, homeProvider) => homeProvider..update(authProvider.user),
+        ),
+        ChangeNotifierProxyProvider<AuthProvider,StatisticsProvider>(
+          create: (context) => StatisticsProvider(),
+          update: (context, authProvider, statisticsProvider) => statisticsProvider..update(authProvider.user),
         )
       ],
       child: MaterialApp(
@@ -54,19 +52,11 @@ class MyApp extends StatelessWidget {
             builders: {
               TargetPlatform.android : CupertinoPageTransitionsBuilder()
             }
-          )
+          ),
         ),
-        //home: HomeScreen(),
-        //home: CustomDrawer(),
         home: Root(),
-        //home: TestScreen(),
-        //home: OnboardScreen(),
         routes: {
-          // '/' : (ctx)=>OnboardScreen(),
           DataEntryScreen.routeName : (ctx)=>DataEntryScreen(),
-          // AuthScreen.routeName : (ctx)=>AuthScreen(),
-          // CustomDrawer.routeName : (ctx)=>CustomDrawer(),
-          AddWaterScreen.routeName : (ctx)=>AddWaterScreen()
         },
       ),
     );

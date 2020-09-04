@@ -1,10 +1,15 @@
-import 'package:drinkable/providers/auth_provider.dart';
-import 'package:drinkable/screens/data_entry_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
+
+// providers
+import '../providers/auth_provider.dart';
+
+// screens
+import '../screens/data_entry_screen.dart';
+
 
 class AuthScreen extends StatefulWidget {
   static const routeName = 'auth-screen';
@@ -72,10 +77,10 @@ class _AuthScreenState extends State<AuthScreen> {
                       child: Text(
                         'Drinkable keeps track your daily water intake and reminds you to drink water by sending notification in intervals',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 15,
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
                           color: Colors.black.withOpacity(0.60)
-                        ),
+                        )
                       ),
                     ),
                   ],
@@ -138,7 +143,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               ),
                               Text(
                                 'Continue with Google',
-                                style: TextStyle(
+                                style:GoogleFonts.poppins(
                                   color: Colors.white,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500
@@ -157,9 +162,9 @@ class _AuthScreenState extends State<AuthScreen> {
                   child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         color: Colors.black,
-                        fontSize: 12
+                        fontSize: 11
                       ),
                       children: [
                         TextSpan(
@@ -167,7 +172,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         TextSpan(
                           text:  'Terms of Service and Privacy Policy.',
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500
                           )
                         )

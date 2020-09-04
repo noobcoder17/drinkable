@@ -1,13 +1,16 @@
-import 'package:drinkable/providers/auth_provider.dart';
-import 'package:drinkable/providers/auth_provider.dart';
-import 'package:drinkable/screens/auth_screen.dart';
-import 'package:drinkable/screens/profile_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../screens/home_screen.dart';
-import '../screens/scatistics_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+// providers
+import '../providers/auth_provider.dart';
+
+// screens
+import '../screens/profile_screen.dart';
+import '../screens/home_screen.dart';
+import '../screens/scatistics_screen.dart';
 
 class CustomDrawer extends StatefulWidget {
   static const routeName = 'drawer';
@@ -24,9 +27,8 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 400),
+      duration: Duration(milliseconds: 350),
     );
-    //_animationController.repeat(reverse: true);
     changeStatusBar(false);
   }
 
@@ -109,9 +111,9 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Good Morning',style: TextStyle(color: Colors.white54,fontSize: 14),),
+                                  Text('Hello',style:  GoogleFonts.poppins(color: Colors.white54,fontSize: 14),),
                                   SizedBox(height: 1,),
-                                  Text(user.displayName.split(' ')[0],style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w500))
+                                  Text(user.displayName.split(' ')[0],style:  GoogleFonts.poppins(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w500))
                                 ],
                               )
                             ],
@@ -156,15 +158,6 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
                         title: 'Log Out',
                         onTap: (){
                           Provider.of<AuthProvider>(context,listen: false).signOut();
-                          // Navigator.of(context).popAndPushNamed(AuthScreen.routeName);
-                        },
-                      ),
-
-                      MenuItem(
-                        icon: Icons.info,
-                        title: 'About',
-                        onTap: (){
-                          
                         },
                       ),
                     ],
@@ -220,7 +213,7 @@ class MenuItem extends StatelessWidget {
           children: [
             Icon(this.icon,color: Colors.white,size: 21,),
             SizedBox(width: 15,),
-            Text(this.title,style: TextStyle(color: Colors.white,fontSize: 15),),
+            Text(this.title,style:  GoogleFonts.poppins(color: Colors.white,fontSize: 15),),
           ],
         ),
       ),

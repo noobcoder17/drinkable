@@ -4,9 +4,10 @@ class WeeklyData {
   int month;
   int week;
   Map<String,dynamic> amounts;
+  int dailyTarget;
 
   WeeklyData({
-    this.id,this.year,this.month,this.week,this.amounts
+    this.id,this.year,this.month,this.week,this.amounts,this.dailyTarget
   });
 
   factory WeeklyData.fromDoc(Map<String,dynamic> doc){
@@ -21,17 +22,33 @@ class WeeklyData {
       year: doc['year'],
       month: doc['month'],
       week: doc['week'],
-      amounts: rawAmounts
+      amounts: rawAmounts,
+      dailyTarget: doc['daily_target']
     );
   }
 
 
-  Map<String,dynamic> createNewWeek(String id,int year,int month,int week){
+  Map<String,dynamic> createNewWeek(String id,int year,int month,int week,int target){
     return {
       'id' : id,
       'year' : year,
       'month' : month,
       'week' : week,
+      'daily_target' : target
     };
+  }
+
+  double totalThisWeek(){
+    double total = 0;
+    amounts.forEach((key, value) {
+      total+=value;
+    });
+    return total;
+  }
+
+  int percentThisWeek(){
+    double total = totalThisWeek();
+    double max = (dailyTarget*DateTime.now().weekday).toDouble();
+    return ((total/max)*100).toInt();
   }
 }

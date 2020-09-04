@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 class CustomFormField extends StatelessWidget {
   final String label;
@@ -7,7 +9,6 @@ class CustomFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //color: Colors.yellow,
       height: 60,
       child: Stack(
         children: [
@@ -30,7 +31,7 @@ class CustomFormField extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 3),
               child: Text(
                 label,
-                style: TextStyle(
+                style:  GoogleFonts.poppins(
                   fontSize: 12,
                   fontWeight: FontWeight.w500
                 ),

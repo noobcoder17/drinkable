@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import '../widgets/custom_progress_indicator.dart';
 
-class LoadingScreen extends StatefulWidget {
-  @override
-  _LoadingScreenState createState() => _LoadingScreenState();
-}
+// widgets
+import './custom_progress_indicator.dart';
 
-class _LoadingScreenState extends State<LoadingScreen> {
-  
-  
+class LoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

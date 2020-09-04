@@ -19,7 +19,7 @@ class CustomAppBar extends StatelessWidget {
             children: [
               Image.asset('assets/icons/logo.png',height: 20,),
               SizedBox(width: 12,),
-              //Text('Drinkable',style: TextStyle(fontWeight: FontWeight.w600,fontSize: 17),)
+              //Text('Drinkable',style:  GoogleFonts.poppins(fontWeight: FontWeight.w600,fontSize: 17),)
               Text(
                 'drinkable',
                 style: GoogleFonts.pacifico(

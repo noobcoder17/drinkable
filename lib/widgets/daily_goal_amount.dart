@@ -1,6 +1,9 @@
-import 'package:drinkable/providers/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+// providers
+import '../providers/home_provider.dart';
 
 class DailyGoalAmount extends StatelessWidget {
   @override
@@ -20,7 +23,7 @@ class DailyGoalAmount extends StatelessWidget {
           children: [
             Text(
               'Goal',
-              style: TextStyle(
+              style:  GoogleFonts.poppins(
                 color: Colors.white.withOpacity(0.8),
                 fontSize: 19,
                 fontWeight: FontWeight.w300
@@ -31,7 +34,7 @@ class DailyGoalAmount extends StatelessWidget {
               builder: (context, provider, child) {
                 return Text(
                   provider.dailyTarget.toString(),
-                  style: TextStyle(
+                  style:  GoogleFonts.poppins(
                     color: Colors.white,
                     fontSize: 19,
                     fontWeight: FontWeight.w700

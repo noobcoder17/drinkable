@@ -1,7 +1,13 @@
-import 'package:drinkable/providers/home_provider.dart';
-import 'package:drinkable/values/weather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+// providers
+import '../providers/home_provider.dart';
+
+// values
+import '../values/weather_icons.dart';
+
 
 class WeatherSuggestion extends StatelessWidget {
   @override
@@ -12,7 +18,7 @@ class WeatherSuggestion extends StatelessWidget {
       children: [
         Text(
           'Weather',
-          style: TextStyle(fontSize: 22),
+          style:  GoogleFonts.poppins(fontSize: 22),
         ),
         SizedBox(height: 20,),
         Consumer<HomeProvider>(
@@ -43,16 +49,16 @@ class WeatherSuggestion extends StatelessWidget {
                       RichText(
                         text: TextSpan(
                           children: [
-                            TextSpan(text: 'It\'s ',style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w300)),
-                            TextSpan(text:  weather['description'],style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w700)),
-                            TextSpan(text: ' today!',style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w300)),
+                            TextSpan(text: 'It\'s ',style:  GoogleFonts.poppins(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w300)),
+                            TextSpan(text:  weather['description'],style:  GoogleFonts.poppins(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w700)),
+                            TextSpan(text: ' today!',style:  GoogleFonts.poppins(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w300)),
                           ]
                         ),
                       ),
                       SizedBox(height: 15,),
                       Text(
                         'Dont\'t forget to take the water bottle with you.',
-                        style: TextStyle(
+                        style:  GoogleFonts.poppins(
                           height: 1.5,
                           color: Colors.black.withOpacity(0.6)
                           ),

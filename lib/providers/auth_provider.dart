@@ -9,7 +9,6 @@ class AuthProvider extends ChangeNotifier {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   GoogleSignIn _googleSignIn = GoogleSignIn();
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  AppUser _appUser;
 
   GoogleSignInAccount get googleAcount {
     return _googleSignIn.currentUser;

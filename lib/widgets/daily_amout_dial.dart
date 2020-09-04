@@ -1,8 +1,11 @@
-import 'package:drinkable/providers/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+// providers
+import '../providers/home_provider.dart';
+
 
 class DailyAmountDial extends StatelessWidget {
   @override
@@ -28,12 +31,12 @@ class DailyAmountDial extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: provider.leftAmount,
-                    style: TextStyle(fontSize: 33,fontWeight: FontWeight.w700)
+                    style:  GoogleFonts.poppins(fontSize: 33,fontWeight: FontWeight.w700)
                   ),
                   TextSpan(text:'\n'),
                   TextSpan(
                     text: 'left to drink',
-                    style: TextStyle(fontSize: 12,fontWeight: FontWeight.w300)
+                    style:  GoogleFonts.poppins(fontSize: 12,fontWeight: FontWeight.w300)
                   ),
                 ]
               ),

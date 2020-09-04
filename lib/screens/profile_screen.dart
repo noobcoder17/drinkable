@@ -1,13 +1,25 @@
-import 'package:drinkable/models/app_user.dart';
-import 'package:drinkable/providers/auth_provider.dart';
-import 'package:drinkable/providers/home_provider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../widgets/custom_app_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import '../utils/time_converter.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+// providers
+import '../providers/auth_provider.dart';
+import '../providers/home_provider.dart';
+
+// models
+import '../models/app_user.dart';
+
+// widgets
+import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_form_field.dart';
+
+// utils
+import '../utils/time_converter.dart';
+
+
 
 class ProfileScreen extends StatelessWidget {
   final Function openDrawer;
@@ -39,7 +51,7 @@ class ProfileScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   appUser.name,
-                                  style: TextStyle(
+                                  style:  GoogleFonts.poppins(
                                     fontSize: 19,
                                     fontWeight: FontWeight.w500
                                   ),
@@ -47,7 +59,7 @@ class ProfileScreen extends StatelessWidget {
                                 SizedBox(height: 5,),
                                 Text(
                                   appUser.email,
-                                  style: TextStyle(
+                                  style:  GoogleFonts.poppins(
                                     fontSize: 14,
                                   ),
                                 )
@@ -158,14 +170,14 @@ class _DataEntryFormState extends State<DataEntryForm> {
                     value: _appUser.gender,
                     items: <DropdownMenuItem<String>>[
                       DropdownMenuItem(
-                        child: Text('Male',style: TextStyle(
+                        child: Text('Male',style:  GoogleFonts.poppins(
                             fontSize: 15,
                             fontWeight: FontWeight.w500
                           ),),
                         value: 'male',
                       ),
                       DropdownMenuItem(
-                        child: Text('Female',style: TextStyle(
+                        child: Text('Female',style:  GoogleFonts.poppins(
                             fontSize: 15,
                             fontWeight: FontWeight.w500
                           ),),
@@ -211,7 +223,7 @@ class _DataEntryFormState extends State<DataEntryForm> {
                       children: [
                         Text(
                           DateFormat.yMMMd('en_US').format(_appUser.birthday),
-                          style: TextStyle(
+                          style:  GoogleFonts.poppins(
                             fontSize: 15,
                             fontWeight: FontWeight.w500
                           ),
@@ -238,7 +250,7 @@ class _DataEntryFormState extends State<DataEntryForm> {
                       hintText: '60 kg',
                       suffixText: 'kg',
                     ),
-                    style: TextStyle(
+                    style:  GoogleFonts.poppins(
                       fontSize: 15,
                       fontWeight: FontWeight.w500
                     ),
@@ -284,7 +296,7 @@ class _DataEntryFormState extends State<DataEntryForm> {
                       children: [
                         Text(
                           timeConverter(_appUser.wakeUpTime),
-                          style: TextStyle(
+                          style:  GoogleFonts.poppins(
                             fontSize: 15,
                             fontWeight: FontWeight.w500
                           ),
@@ -312,7 +324,7 @@ class _DataEntryFormState extends State<DataEntryForm> {
                       hintText: '3200 mL',
                       suffixText: 'mL',
                     ),
-                    style: TextStyle(
+                    style:  GoogleFonts.poppins(
                       fontSize: 15,
                       fontWeight: FontWeight.w500
                     ),
@@ -349,7 +361,7 @@ class _DataEntryFormState extends State<DataEntryForm> {
                   )
                 ) : Text(
                   'Update',
-                  style: TextStyle(
+                  style:  GoogleFonts.poppins(
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
                     fontSize: 12

@@ -7,8 +7,8 @@
 <h2 align="center">
   <sub>Built with ❤︎ by
   <a href="https://github.com/noobcoder17">Akash Debnath</a>
-  <p>Drinkable is a Flutter App powered by Firebase to keep track your daily water intake.</p>
 </h2>
+<p align="center">Drinkable is a Flutter App powered by Firebase to keep track your daily water intake.</p>
 
 
 

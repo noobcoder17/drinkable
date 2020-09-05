@@ -18,20 +18,23 @@ class DailyAmountDial extends StatelessWidget {
             Transform.rotate(
               angle: -pi/2,
               child: Container(
-                width: 180,
-                height: 180,
+                width: 170,
+                height: 170,
                 child: CustomPaint(
                   painter: DialPainter(provider.targetReached),
                 ),
               ),
             ),
-            RichText(
+             provider.leftAmount<=0 ? Text(
+               'Goal Reached',
+               style: GoogleFonts.poppins(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.white,)
+              ):RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: provider.leftAmount,
-                    style:  GoogleFonts.poppins(fontSize: 33,fontWeight: FontWeight.w700)
+                    text: provider.leftAmount<1000? '${provider.leftAmount} mL': '${(provider.leftAmount/1000).toStringAsFixed(1)} L' ,
+                    style:  GoogleFonts.poppins(fontSize: 30,fontWeight: FontWeight.w600)
                   ),
                   TextSpan(text:'\n'),
                   TextSpan(

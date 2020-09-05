@@ -3,7 +3,7 @@ description: A Flutter application which keeps track your water intake and remin
 
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 1.0.0
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

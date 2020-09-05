@@ -12,21 +12,23 @@ import '../models/weekly_data.dart';
 import '../models/app_user.dart';
 
 class HomeProvider extends ChangeNotifier {
+  FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  Location _location = Location();
   bool _isInited = false;
+  DateTime _today = DateTime.now();
+
   WeeklyData _weeklyData;
   String _uid;
   AppUser _appUser;
-  DateTime _today = DateTime.now();
-  FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+
   CollectionReference _weekColRef;
   DocumentReference _userRef;
   DocumentReference _currentWeek;
-  Location _location = Location();
+
   Map<String,dynamic> _weather;
   LocationData _locationData;
 
   void update(User user){
-    print('Updating user in home provider');
     if(user!=null){
       _uid = user.uid;
       _weekColRef = _firebaseFirestore.collection('users').doc(_uid).collection('weeks');
@@ -52,18 +54,13 @@ class HomeProvider extends ChangeNotifier {
     }else{
       return '${(target/1000).toStringAsFixed(1)} L';
     }
-    //return _user.dailyTarget;
   }
 
-  String get leftAmount {
+  int get leftAmount {
     int target = _appUser.dailyTarget;
     int consumed = _weeklyData.amounts[_today.weekday.toString()].toInt();
     int left = target-consumed;
-    if(left<1000){
-      return '$left mL';
-    }else{
-      return '${(left/1000).toStringAsFixed(1)} L';
-    }
+    return left;
   }
 
   double get targetReached {
@@ -92,11 +89,8 @@ class HomeProvider extends ChangeNotifier {
         }
         _isInited = true;
         bool canGetLocation = await getLocationService();
-        print(canGetLocation);
         if(canGetLocation){
           _locationData = await _location.getLocation();
-          print(_locationData.latitude);
-          print(_locationData.longitude);
           http.Response response = await http.get(
             'https://api.openweathermap.org/data/2.5/weather?lat=${_locationData.latitude}&lon=${_locationData.longitude}&appid=5c079888a15f3da50f160e44ce22723e&units=metric'
           );
@@ -119,7 +113,7 @@ class HomeProvider extends ChangeNotifier {
       int weekday = time.weekday;
       int week = getWeek(time);
       String weekId = '${time.year}_$week';
-      _firebaseFirestore.runTransaction((transaction)async{
+      await _firebaseFirestore.runTransaction((transaction)async{
         DocumentReference weekDocRef = _firebaseFirestore.collection('users').doc(_uid).collection('weeks').doc(weekId);
         DocumentReference yearDocRef = _firebaseFirestore.collection('users').doc(_uid).collection('years').doc('${time.year}');
         DocumentReference monthDocRef = _firebaseFirestore.collection('users').doc(_uid).collection('months').doc('${time.year}_${time.month}');
@@ -142,10 +136,11 @@ class HomeProvider extends ChangeNotifier {
 
         if(!weekDocSnap.exists){
           transaction.set(weekDocRef, {
+            'daily_target' : _appUser.dailyTarget,
             'year' : time.year,
             'month' : time.month,
             'week' : week,
-            'id' : weekId
+            'id' : weekId,
           },SetOptions(merge: true));
         }
 
@@ -173,12 +168,10 @@ class HomeProvider extends ChangeNotifier {
 
   Future<bool> getLocationService()async{
     bool isServiceEnabled = await _location.serviceEnabled();
-    print(isServiceEnabled);
 
     if(!isServiceEnabled){
       bool _enabled = await _location.requestService();
       if (_enabled) {
-        print('Service is enabled now');
       }else{
         return false;
       }

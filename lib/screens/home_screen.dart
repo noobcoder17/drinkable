@@ -18,6 +18,7 @@ import '../providers/auth_provider.dart';
 import '../models/app_user.dart';
 
 // widgets
+import '../widgets/custom_progress_indicator.dart';
 import '../widgets/custom_form_field.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -206,7 +207,7 @@ class _AddWaterWidgetState extends State<AddWaterWidget> {
                       if(value.isEmpty){
                         return 'Enter water amount';
                       }
-                      if(double.parse(value)<0){
+                      if(double.parse(value)<=0){
                         return 'Wrong value';
                       }
                       if(double.parse(value)>appUser.dailyTarget){
@@ -243,7 +244,10 @@ class _AddWaterWidgetState extends State<AddWaterWidget> {
         ),
         FlatButton(
           color: Color.fromARGB(255, 0, 60, 192),
-          child: Text('Create',
+          child: _loading ? SizedBox(
+            height: 22,width: 22,
+            child: CustomProgressIndicatior()
+          ) : Text('Add',
             style: GoogleFonts.poppins(
               fontSize: 13,
               fontWeight: FontWeight.w500

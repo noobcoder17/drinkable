@@ -12,6 +12,8 @@ import '../utils/time_converter.dart';
 
 // widgets
 import '../widgets/custom_form_field.dart';
+import '../widgets/custom_progress_indicator.dart';
+
 
 
 class DataEntryScreen extends StatelessWidget {
@@ -355,12 +357,9 @@ class _DataEntryFormState extends State<DataEntryForm> {
               RaisedButton(
                 elevation: 1,
                 color: Color.fromARGB(255, 0, 60, 192),
-
                 child: _loading ? SizedBox(
                   height: 22,width: 22,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                  )
+                  child: CustomProgressIndicatior()
                 ) : Text(
                   'Let\'t go',
                   style:  GoogleFonts.poppins(

@@ -86,10 +86,8 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
         children: [
           Container(
             padding: EdgeInsets.symmetric(
-              //horizontal: 25,
               vertical: 35
             ),
-            //color: Color.fromARGB(255,0, 11, 33),
             child: Column(
               children: [
                 Padding(
@@ -213,7 +211,7 @@ class MenuItem extends StatelessWidget {
           children: [
             Icon(this.icon,color: Colors.white,size: 21,),
             SizedBox(width: 15,),
-            Text(this.title,style:  GoogleFonts.poppins(color: Colors.white,fontSize: 15),),
+            Text(this.title,style:  GoogleFonts.poppins(color: Colors.white,fontSize: 14),),
           ],
         ),
       ),

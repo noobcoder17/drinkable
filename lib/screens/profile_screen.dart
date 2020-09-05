@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,6 +14,7 @@ import '../models/app_user.dart';
 // widgets
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_form_field.dart';
+import '../widgets/custom_progress_indicator.dart';
 
 // utils
 import '../utils/time_converter.dart';
@@ -356,9 +356,7 @@ class _DataEntryFormState extends State<DataEntryForm> {
 
                 child: _loading ? SizedBox(
                   height: 22,width: 22,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                  )
+                  child: CustomProgressIndicatior()
                 ) : Text(
                   'Update',
                   style:  GoogleFonts.poppins(

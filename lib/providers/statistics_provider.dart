@@ -26,7 +26,7 @@ class StatisticsProvider extends ChangeNotifier {
   Future<void> init() async {
     try {
       _weeklyData.clear();
-      QuerySnapshot snapshot = await _weeksRef.orderBy('id').limit(4).get();
+      QuerySnapshot snapshot = await _weeksRef.orderBy('id',descending: true).limit(4).get();
       List<QueryDocumentSnapshot> docsSnap = snapshot.docs;
       docsSnap.forEach((docSnap) { 
         _weeklyData.add(new WeeklyData.fromDoc(docSnap.data()));

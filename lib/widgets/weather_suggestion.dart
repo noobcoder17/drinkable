@@ -18,9 +18,9 @@ class WeatherSuggestion extends StatelessWidget {
       children: [
         Text(
           'Weather',
-          style:  GoogleFonts.poppins(fontSize: 22),
+          style:  GoogleFonts.poppins(fontSize: 20),
         ),
-        SizedBox(height: 20,),
+        SizedBox(height: 18,),
         Consumer<HomeProvider>(
           builder: (context, value, child) {
             Map<String,dynamic> weather = value.weather;
@@ -48,20 +48,24 @@ class WeatherSuggestion extends StatelessWidget {
                     children: [
                       RichText(
                         text: TextSpan(
+                          style: GoogleFonts.poppins(
+                            color: Colors.black,fontSize: 17,
+                          ),
                           children: [
-                            TextSpan(text: 'It\'s ',style:  GoogleFonts.poppins(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w300)),
-                            TextSpan(text:  weather['description'],style:  GoogleFonts.poppins(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w700)),
-                            TextSpan(text: ' today!',style:  GoogleFonts.poppins(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w300)),
+                            TextSpan(text: 'It\'s ',style:  GoogleFonts.poppins(fontWeight: FontWeight.w300)),
+                            TextSpan(text:  weather['description'],style:  GoogleFonts.poppins(fontWeight: FontWeight.w700)),
+                            TextSpan(text: ' today!',style:  GoogleFonts.poppins(fontWeight: FontWeight.w300)),
                           ]
                         ),
                       ),
-                      SizedBox(height: 15,),
+                      SizedBox(height: 11,),
                       Text(
                         'Dont\'t forget to take the water bottle with you.',
                         style:  GoogleFonts.poppins(
                           height: 1.5,
-                          color: Colors.black.withOpacity(0.6)
-                          ),
+                          color: Colors.black.withOpacity(0.6),
+                          fontSize: 12
+                        ),
                       )
                     ],
                   ),

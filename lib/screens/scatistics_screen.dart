@@ -9,7 +9,7 @@ import '../providers/auth_provider.dart';
 import '../providers/statistics_provider.dart';
 
 // models
-import 'package:drinkable/models/weekly_data.dart';
+import '../models/weekly_data.dart';
 
 // widgets
 import '../widgets/custom_app_bar.dart';

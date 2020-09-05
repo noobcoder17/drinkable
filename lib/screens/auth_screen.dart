@@ -10,6 +10,9 @@ import '../providers/auth_provider.dart';
 // screens
 import '../screens/data_entry_screen.dart';
 
+// widgets
+import '../widgets/custom_progress_indicator.dart';
+
 
 class AuthScreen extends StatefulWidget {
   static const routeName = 'auth-screen';
@@ -39,7 +42,6 @@ class _AuthScreenState extends State<AuthScreen> {
   void selectAccount(BuildContext ctx) async {
     toggleLoading();
     bool newuser = await Provider.of<AuthProvider>(ctx,listen: false).selectGoogleAcount();
-    print('new user $newuser');
     if(!newuser){
       await Provider.of<AuthProvider>(ctx,listen: false).signIn();
     }else{
@@ -90,7 +92,7 @@ class _AuthScreenState extends State<AuthScreen> {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                _loading ? CircularProgressIndicator() : Consumer<AuthProvider>(
+                _loading ? CustomProgressIndicatior() : Consumer<AuthProvider>(
                   builder: (ctx, authProvider, child) {
                     GoogleSignInAccount googleAccount = authProvider.googleAcount;
                     return googleAccount!=null ? 

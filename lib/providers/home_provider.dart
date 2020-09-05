@@ -7,6 +7,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 // utils
 import '../utils/get_week.dart';
 
+//values
+import '../values/api_key.dart';
+
 // models
 import '../models/weekly_data.dart';
 import '../models/app_user.dart';
@@ -92,7 +95,7 @@ class HomeProvider extends ChangeNotifier {
         if(canGetLocation){
           _locationData = await _location.getLocation();
           http.Response response = await http.get(
-            'https://api.openweathermap.org/data/2.5/weather?lat=${_locationData.latitude}&lon=${_locationData.longitude}&appid=5c079888a15f3da50f160e44ce22723e&units=metric'
+            'https://api.openweathermap.org/data/2.5/weather?lat=${_locationData.latitude}&lon=${_locationData.longitude}&appid=${keys['openweather']}&units=metric'
           );
           if(response.statusCode==200){
             final weatherInfo = jsonDecode(response.body);

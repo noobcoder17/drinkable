@@ -45,4 +45,4 @@ app.*.map.json
 
 /android/app/google-services.json
 
-README.md
+/lib/values/api_key.dart

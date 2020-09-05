@@ -16,14 +16,14 @@
   <img src="screenshot/flutter_01.png" height="420" />
 </h1>
 
-In this app user will sign up using there Google Acount (Google Sign-In) and if he/she is a new user, then he/she have to fill a form with basic details like gender, age, weight. We also added the daily wake up time. It will be used in next version where user will be notified to drink water in intervals. By providing the basis information, your can get your recommended daily water intake which is editable.
+In this app user will sign up using there Google Account (Google Sign-In) and if he/she is a new user, then he/she have to fill a form with basic details like gender, age, weight. We also added the daily wake up time. It will be used in next version where user will be notified to drink water in intervals. By providing the basis information, your can get your recommended daily water intake which is editable.
 
 <p align='left'>
    <img src="screenshot/flutter_06.png" height="380" />
    <img src="screenshot/flutter_08.png" height="380" />
 </p>
 
-Now once you signed up, you can add water that you consumned. You can track your intakes in Statistics screen.
+Now once you signed up, you can add water that you consumed. You can track your intakes in Statistics screen.
 
 In future if you want to update your profile data like you weight and get the recommended water intake automatically, then you can do it in profile page.
 

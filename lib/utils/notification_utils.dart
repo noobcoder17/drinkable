@@ -41,8 +41,8 @@ Future<void> setDailyStartNotification(TimeOfDay time, String user)async{
     await plugin.cancel(0);
     await plugin.showDailyAtTime(
       0, 
-      "Good Morning, $user", 
-      "Don't forget to dring enoung water today", 
+      "Good morning, $user", 
+      "Don't forget to dring enough water today", 
       Time(time.hour,time.minute), 
       notificationDetails
     );

@@ -41,16 +41,20 @@ class HomeProvider extends ChangeNotifier {
     }else{
       _isInited = false;
       _uid = null;
+      _weeklyData = null;
       _appUser = null;
       _weekColRef = null;
       _userRef = null;
+      _currentWeek = null;
+      _weather = null;
+      _locationData = null;
     }
     notifyListeners();
   }
 
-  Map<String,dynamic> get weather {
-    return _weather;
-  }
+  Map<String,dynamic> get weather => _weather;
+
+  AppUser get appUser => _appUser;
 
   String get dailyTarget {
     int target = _appUser.dailyTarget;
@@ -73,8 +77,6 @@ class HomeProvider extends ChangeNotifier {
     int consumed = _weeklyData.amounts[_today.weekday.toString()].toInt();
     return consumed/target;
   }
-
-  AppUser get appUser => _appUser;
 
   Future<void> init()async{
     if(_isInited==false){

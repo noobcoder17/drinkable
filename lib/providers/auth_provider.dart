@@ -10,20 +10,14 @@ import '../models/app_user.dart';
 //utils
 import '../utils/notification_utils.dart';
 
-
 class AuthProvider extends ChangeNotifier {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   GoogleSignIn _googleSignIn = GoogleSignIn();
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  GoogleSignInAccount get googleAcount {
-    return _googleSignIn.currentUser;
-  }
-
-  User get user {
-    return _firebaseAuth.currentUser;
-  }
-
+  GoogleSignInAccount get googleAcount => _googleSignIn.currentUser;
+  
+  User get user => _firebaseAuth.currentUser;
 
   Future<bool> selectGoogleAcount() async {
     try {

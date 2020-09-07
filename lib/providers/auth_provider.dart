@@ -7,6 +7,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 // models
 import '../models/app_user.dart';
 
+//utils
+import '../utils/notification_utils.dart';
+
 
 class AuthProvider extends ChangeNotifier {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -31,6 +34,13 @@ class AuthProvider extends ChangeNotifier {
       if(docs.length==0){
         return true;
       }
+      QueryDocumentSnapshot userDoc = docs[0];
+      Map<String,dynamic> data = userDoc.data();
+      TimeOfDay wakeUpTime = TimeOfDay(
+        hour: data['wake_up_time']['hour'],
+        minute: data['wake_up_time']['minute']
+      );
+      await setDailyStartNotification(wakeUpTime,data['name']);
       return false;
     }catch(e){
       print(e);
@@ -70,6 +80,7 @@ class AuthProvider extends ChangeNotifier {
         wakeUpTime: time,
         dailyTarget: water
       ).toDoc());
+      await setDailyStartNotification(time,user.displayName);
       notifyListeners();
     }catch(e){
       print(e);
@@ -82,6 +93,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   void signOut() async {
+    await cancelAllNotifications();
     await _googleSignIn.signOut();
     await _firebaseAuth.signOut();
     notifyListeners();

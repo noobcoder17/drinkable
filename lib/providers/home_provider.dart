@@ -4,15 +4,17 @@ import 'package:location/location.dart';
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 // utils
 import '../utils/get_week.dart';
-
+import '../utils/notification_utils.dart';
 //values
 import '../values/api_key.dart';
 
 // models
 import '../models/weekly_data.dart';
 import '../models/app_user.dart';
+
 
 class HomeProvider extends ChangeNotifier {
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
@@ -161,6 +163,11 @@ class HomeProvider extends ChangeNotifier {
       });
       if(_weeklyData.id==weekId){
         _weeklyData.amounts[weekday.toString()] += amount;
+        if(weekday==DateTime.now().weekday){
+          if(leftAmount>0){
+            await waterNotification(leftAmount);
+          }
+        }
         notifyListeners();
       }
     }catch(e){
@@ -198,6 +205,7 @@ class HomeProvider extends ChangeNotifier {
         });
         transaction.update(_userRef, appUser.toDoc());
       });
+      await setDailyStartNotification(appUser.wakeUpTime,appUser.name);
       _appUser = appUser;
       notifyListeners();
     }catch(e){

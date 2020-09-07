@@ -25,7 +25,7 @@ class WeeklyStatisticsGraph extends StatelessWidget {
       }
     }
     for(int i=1;i<=7;i++){
-      double h = maxH*(intakes[i.toString()]/max);
+      double h = max==0 ? 0 : maxH*(intakes[i.toString()]/max);
       bars.add(
         Column(
           mainAxisSize: MainAxisSize.min,

@@ -1,3 +1,5 @@
+import '../utils/get_week.dart';
+
 class WeeklyData {
   String id;
   int year;
@@ -47,8 +49,15 @@ class WeeklyData {
   }
 
   int percentThisWeek(){
+    DateTime today = DateTime.now();
+    int thisWeek = getWeek(today);
+    double max;
+    if(thisWeek==this.week && today.year==this.year){
+      max = (dailyTarget*DateTime.now().weekday).toDouble();
+    }else{
+      max = (dailyTarget*7).toDouble();
+    }
     double total = totalThisWeek();
-    double max = (dailyTarget*DateTime.now().weekday).toDouble();
     return ((total/max)*100).toInt();
   }
 }

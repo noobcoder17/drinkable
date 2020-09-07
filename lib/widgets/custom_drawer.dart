@@ -175,14 +175,16 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
                           ..rotateX(0.15*_animationController.value),
                 origin: Offset(0,0),
                 alignment: Alignment.center,
-                //child: child,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20*_animationController.value),
-                  child: AbsorbPointer(
-                    absorbing: _isDrawerOpened,
-                    child: screens[screen],
-                  ),
-                )
+                
+                // comment the child and uncomment the commented child to get the curved app drawer
+                child: child,
+                // child: ClipRRect(
+                //   borderRadius: BorderRadius.circular(20*_animationController.value),
+                //   child: AbsorbPointer(
+                //     absorbing: _isDrawerOpened,
+                //     child: screens[screen],
+                //   ),
+                // )
               );
             },
             child: AbsorbPointer(

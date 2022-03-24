@@ -2,7 +2,7 @@
 import '../utils/get_week.dart';
 
 class WeeklyData {
-  String id;
+  String id11;
   int year;
   int month;
   int week;
@@ -10,7 +10,7 @@ class WeeklyData {
   int dailyTarget;
 
   WeeklyData({
-    this.id,this.year,this.month,this.week,this.amounts,this.dailyTarget
+    this.id11,this.year,this.month,this.week,this.amounts,this.dailyTarget
   });
 
   factory WeeklyData.fromDoc(Map<String,dynamic> doc){
@@ -21,7 +21,7 @@ class WeeklyData {
       }
     }
     return WeeklyData(
-      id: doc['id'],
+      id11: doc['id11'],
       year: doc['year'],
       month: doc['month'],
       week: doc['week'],
@@ -31,9 +31,9 @@ class WeeklyData {
   }
 
 
-  Map<String,dynamic> createNewWeek(String id,int year,int month,int week,int target){
+  Map<String,dynamic> createNewWeek(String id11,int year,int month,int week,int target){
     return {
-      'id' : id,
+      'id11' : id11,
       'year' : year,
       'month' : month,
       'week' : week,
